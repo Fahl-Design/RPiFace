@@ -14,10 +14,9 @@ outlets['COFF']="320 4950 970 360 970 360 970 360 310 1020 310 1010 970 370 970 
 if [ -n "${outlets["$outlet$onoff"]}" ]
 then
 rawcode=${outlets["$outlet$onoff"]}
-echo "Found rawcode, executing set outlet '$outlet' to state '$onoff'"
+echo "$onoff"
 pilight-send -p raw -c "$rawcode"
 else
-echo "I don't know what you mean by set '$outlet' to '$onoff'"
-echo "Either the array does not contain a code for '$outlet$onoff' or it is empty"
+echo "error"
 fi
 exit 0
