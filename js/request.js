@@ -5,7 +5,7 @@ JMC.Lights = {
             var input = $(this);
             input.parents('tr').find('.status').html('<i class="material-icons">refresh</i>');
             var switchId = input.data('swtichid');
-            var url = '/new/request.php';
+            var url = '/request.php';
             $.ajax({
                 type: 'POST',
                 url: url,

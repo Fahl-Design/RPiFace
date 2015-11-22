@@ -188,7 +188,7 @@ class lights
 
         if (in_array($letter, $this->validCodes) === true) {
 
-            return shell_exec("/home/www/new/mumbiSet.sh {$letter} {$statusMode}");
+            return shell_exec("/home/www/mumbiSet.sh {$letter} {$statusMode}");
         } else {
             return false;
         }
