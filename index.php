@@ -67,8 +67,6 @@ $lights = $light->getLightObjects();
 <!-- Simple header with scrollable tabs. -->
 <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
     <main class="mdl-layout__content centerVParent center">
-<div id="bla"></div>
-
         <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp centerVChild">
             <thead>
             <tr>
