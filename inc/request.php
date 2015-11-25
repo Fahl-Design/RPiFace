@@ -1,20 +1,43 @@
 <?php
-include_once('inc/Lights.php');
+include_once('Lights.php');
 
-$value = htmlentities($_POST['light']);
-
-if (!empty($value)) {
+$valueLight = htmlentities($_POST['light']);
+$valueTemp = htmlentities($_POST['temp']);
+$valueNow = htmlentities($_POST['tempNow']);
+if (!empty($valueLight)) {
 
     $light = new lights();
 
-    $lamp = $light->getById($value);
-    //$light->switchState($lamp);
+    $lamp = $light->getById($valueLight);
 
     $return = [
-        'light' => $value,
+        'light' => $valueLight,
         'state' => str_replace("\n", '', $light->switchState($lamp))
     ];
 
     echo json_encode($return);
 }
+if (!empty($valueTemp)) {
+
+    $row = 1;
+    if (($handle = fopen("templog.csv", "r")) !== FALSE) {
+        while (($data = fgetcsv($handle, 1000, ";")) !== FALSE) {
+            $rs[] = $data;
+        }
+        fclose($handle);
+    }
+    echo json_encode($rs);;
+}
+if (!empty($valueNow)) {
+    if (($handle = fopen("templog.csv", "r")) !== FALSE) {
+        $lastrow;
+        while (($data = fgetcsv($handle, 1000, ";")) !== FALSE) {
+
+            $lastrow = $data;
+
+        }
+    }
+    echo json_encode($lastrow);;
+}
+
 ?>
