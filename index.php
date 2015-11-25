@@ -1,5 +1,5 @@
 <?php
-    include('inc/Lights.php');
+include('inc/Lights.php');
 ?>
 <!doctype html>
 
@@ -38,7 +38,8 @@ $lights = $light->getLightObjects();
     <link rel="canonical" href="http://www.example.com/">
     -->
 
-    <link href='//fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&amp;lang=en' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&amp;lang=en' rel='stylesheet'
+          type='text/css'>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="css/material.min.css">
     <link rel="stylesheet" href="css/styles.css">
@@ -66,8 +67,8 @@ $lights = $light->getLightObjects();
 
 <!-- Simple header with scrollable tabs. -->
 <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header centerVParent center">
-    <div class="mdl-tabs mdl-js-tabs mdl-js-ripple-effect " >
-        <div class="mdl-tabs__tab-bar ">
+    <div class="mdl-tabs mdl-js-tabs mdl-js-ripple-effect ">
+        <div class="mdl-tabs__tab-bar">
             <a href="#starks-panel" class="mdl-tabs__tab is-active">Light</a>
             <a href="#lannisters-panel" class="mdl-tabs__tab temperatureNow">Temperature </a>
         </div>
@@ -93,7 +94,8 @@ $lights = $light->getLightObjects();
                             </td>
                             <td class="mdl-data-table__cell--non-numeric">
                                 <label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="switch-<?php echo $lightBall->id ?>">
-                                    <input type="checkbox" id="switch-<?php echo $lightBall->id ?>" data-swtichid="<?php echo $lightBall->id ?>" class="mdl-switch__input" <?php echo ((bool)$lightBall->status) ? 'checked' : '' ?>>
+                                    <input type="checkbox" id="switch-<?php echo $lightBall->id ?>" data-swtichid="<?php echo $lightBall->id ?>"
+                                           class="mdl-switch__input" <?php echo ((bool)$lightBall->status) ? 'checked' : '' ?>>
                                     <span class="mdl-switch__label"></span>
                                 </label>
                             </td>
@@ -127,7 +129,7 @@ $lights = $light->getLightObjects();
 
                 </tbody>
             </table>
-            <div >
+            <div>
                 <div>
                     <canvas id="canvas" height="600px" width="900px"></canvas>
                 </div>
