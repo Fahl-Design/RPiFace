@@ -5,7 +5,7 @@ JMC.Lights = {
             var input = $(this);
             input.parents('tr').find('.status').html('<i class="material-icons">refresh</i>');
             var switchId = input.data('swtichid');
-            var url = '/request.php';
+            var url = '/inc/request.php';
             $.ajax({
                 type: 'POST',
                 url: url,
@@ -15,7 +15,6 @@ JMC.Lights = {
 
                 success: function (data) {
                     var rs = JSON.parse(data);
-                    console.log(rs.state);
                     input.parents('tr').find('.status').html('<i class="material-icons">done</i>');
 
                     if (rs.state == "ON") {
@@ -39,9 +38,94 @@ JMC.Lights = {
         });
     }
 };
+JMC.DHT = {
+    room: function (selector) {
+        $(selector).click(function () {
+            var input = $(this);
+            var url = '/inc/request.php';
+            $.ajax({
+                type: 'POST',
+                url: url,
+                data: {
+                    temp: 'yes'
+                },
+
+                success: function (data) {
+                    var rs = JSON.parse(data);
+                    var dataItems = {
+                        labels: [],
+                        datasets: [
+                            {
+                                label: "temperature",
+                                fillColor: "rgba(151,187,205,0.5)",
+                                strokeColor: "rgba(151,187,205,0.8)",
+                                highlightFill: "rgba(151,187,205,0.75)",
+                                highlightStroke: "rgba(151,187,205,1)",
+                                data: []
+                            },
+                            {
+                                label: "humidity",
+                                fillColor: "rgba(151,187,205,0.5)",
+                                strokeColor: "rgba(151,187,205,0.8)",
+                                highlightFill: "rgba(151,187,205,0.75)",
+                                highlightStroke: "rgba(151,187,205,1)",
+                                data: []
+                            }
+                        ]
+                    };
+                    $('.roomTemp').empty();
+                    $.each(rs, function(i, row) {
+
+                        dataItems.labels.push(rs[i][0]);
+
+                        dataItems.datasets[0]['data'].push(
+                           rs[i][1]
+                        );
+                        dataItems.datasets[1]['data'].push(
+                            rs[i][2]
+                        );
+                    });  // close each()
+                    console.log(dataItems);
+                    var ctx = document.getElementById("canvas").getContext("2d");
+                    window.myLine = new Chart(ctx).Line(dataItems, {
+                        responsive: true
+                    });
+
+
+                },
+                error: function (error) {
+                    console.log(rs);
+                    input.parents('tr').find('.temp').html('<i class="material-icons">error_outline</i>')
+                }
+            })
+        })
+    },
+    tempNow: function (selector) {
+
+        var url = '/inc/request.php';
+        $.ajax({
+            type: 'POST',
+            url: url,
+            data: {
+                tempNow: 'yes'
+            },
+
+            success: function (data) {
+                var rs = JSON.parse(data);
+                console.log(rs);
+                selector.append('Datum: '+rs[0]+' Temperature: '+rs[1]+'*C Humidity: '+rs[2]+'%');
+            },
+            error: function (error) { }
+        })
+    }
+};
 
 $(function () {
     if ($('.mdl-switch__input').length > 0) {
         JMC.Lights.switches('.mdl-switch__input');
     }
+
+    JMC.DHT.room($('.refreshTemp'));
+
+    JMC.DHT.tempNow($('.temperatureNow'));
 });
