@@ -55,9 +55,9 @@ $lights = $light->getLightObjects();
         }
 
         .center {
+            position: absolute;
             margin: 0 auto;
             min-width: 275px;
-            display: table-row-group;
         }
     </style>
 
@@ -65,42 +65,84 @@ $lights = $light->getLightObjects();
 <body>
 
 <!-- Simple header with scrollable tabs. -->
-<div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
-    <main class="mdl-layout__content centerVParent center">
-        <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp centerVChild">
-            <thead>
-            <tr>
-                <th class="mdl-data-table__cell--non-numeric">Lamp</th>
-                <th class="mdl-data-table__cell--non-numeric">Status</th>
-                <th class="mdl-data-table__cell--non-numeric">Control</th>
-            </tr>
-            </thead>
-            <tbody>
+<div class="mdl-layout mdl-js-layout mdl-layout--fixed-header centerVParent center">
+    <div class="mdl-tabs mdl-js-tabs mdl-js-ripple-effect " >
+        <div class="mdl-tabs__tab-bar ">
+            <a href="#starks-panel" class="mdl-tabs__tab is-active">Light</a>
+            <a href="#lannisters-panel" class="mdl-tabs__tab temperatureNow">Temperature </a>
+        </div>
 
-            <?php foreach ($lights as $lightBall) : ?>
+        <div class="mdl-tabs__panel is-active " id="starks-panel">
+            <main class="mdl-layout__content  ">
+                <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp center">
+                    <thead>
+                    <tr>
+                        <th class="mdl-data-table__cell--non-numeric">Lampe</th>
+                        <th class="mdl-data-table__cell--non-numeric">Status</th>
+                        <th class="mdl-data-table__cell--non-numeric">Schalter</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <?php foreach ($lights as $lightBall) : ?>
+                        <tr>
+                            <td class="mdl-data-table__cell--non-numeric">
+                                <?php echo htmlentities($lightBall->name); ?>
+                            </td>
+                            <td class="mdl-data-table__cell--non-numeric status">
+                                <?php echo ((bool)$lightBall->status) ? '<i class="material-icons">wb_incandescent</i>' : '<i class="material-icons">brightness_3</i>' ?>
+                            </td>
+                            <td class="mdl-data-table__cell--non-numeric">
+                                <label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="switch-<?php echo $lightBall->id ?>">
+                                    <input type="checkbox" id="switch-<?php echo $lightBall->id ?>" data-swtichid="<?php echo $lightBall->id ?>" class="mdl-switch__input" <?php echo ((bool)$lightBall->status) ? 'checked' : '' ?>>
+                                    <span class="mdl-switch__label"></span>
+                                </label>
+                            </td>
+                        </tr>
+                    <?php endforeach ?>
+
+                    </tbody>
+                </table>
+            </main>
+        </div>
+        <div class="mdl-tabs__panel center" id="lannisters-panel">
+            <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp ">
+                <thead>
                 <tr>
-                    <td class="mdl-data-table__cell--non-numeric">
-                        <?php echo htmlentities($lightBall->name); ?>
-                    </td>
-                    <td class="mdl-data-table__cell--non-numeric status">
-                            <?php echo ((bool)$lightBall->status) ? '<i class="material-icons">wb_incandescent</i>' : '<i class="material-icons">brightness_3</i>' ?>
-                    </td>
-                    <td class="mdl-data-table__cell--non-numeric">
-                        <label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="switch-<?php echo $lightBall->id ?>">
-                            <input type="checkbox" id="switch-<?php echo $lightBall->id ?>" data-swtichid="<?php echo $lightBall->id ?>" class="mdl-switch__input" <?php echo ((bool)$lightBall->status) ? 'checked' : '' ?>>
-                            <span class="mdl-switch__label"></span>
-                        </label>
-                    </td>
+                    <th class="mdl-data-table__cell--non-numeric">
+                        Uhrzeit
+                        <button class="mdl-button mdl-js-button mdl-button--icon refreshTemp">
+                            <i class="material-icons">refresh</i>
+                        </button>
+                    </th>
+                    <th>Temperatur</th>
+                    <th>Luftfeuchtigkeit</th>
                 </tr>
-            <?php endforeach ?>
+                </thead>
+                <tbody class="roomTemp">
+                <tr class="">
+                    <td class="mdl-data-table__cell--non-numeric">Wohnzimmer</td>
+                    <td class="temp"></td>
+                    <td class="humidity"></td>
+                </tr>
 
-            </tbody>
-        </table>
-    </main>
+                </tbody>
+            </table>
+            <div >
+                <div>
+                    <canvas id="canvas" height="600px" width="900px"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </div>
+
 <script src="js/material.min.js"></script>
 <script src="js/jquery.js"></script>
 <script src="js/request.js"></script>
+<script src="js/chart.js"></script>
+<script>
 
+</script>
 </body>
 </html>
