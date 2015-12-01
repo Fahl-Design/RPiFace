@@ -22,11 +22,13 @@ if (!empty($valueTemp)) {
     $row = 1;
     if (($handle = fopen("templog.csv", "r")) !== FALSE) {
         while (($data = fgetcsv($handle, 1000, ";")) !== FALSE) {
+            $row++;
             $rs[] = $data;
         }
         fclose($handle);
     }
-    echo json_encode($rs);;
+    echo json_encode(array_slice($rs, -50, 50, true));
+    //echo json_encode($rs);
 }
 if (!empty($valueNow)) {
     if (($handle = fopen("templog.csv", "r")) !== FALSE) {

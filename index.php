@@ -4,7 +4,7 @@ include('inc/Lights.php');
 <!doctype html>
 
 <?php
-
+/** @var lights $light */
 $light = new lights();
 
 $lights = $light->getLightObjects();
@@ -66,21 +66,21 @@ $lights = $light->getLightObjects();
 <body>
 
 <!-- Simple header with scrollable tabs. -->
-<div class="mdl-layout mdl-js-layout mdl-layout--fixed-header centerVParent center">
+<div class="mdl-layout mdl-js-layout mdl-layout--fixed-header centerVParent">
     <div class="mdl-tabs mdl-js-tabs mdl-js-ripple-effect ">
         <div class="mdl-tabs__tab-bar">
             <a href="#starks-panel" class="mdl-tabs__tab is-active">Light</a>
-            <a href="#lannisters-panel" class="mdl-tabs__tab temperatureNow">Temperature </a>
+            <a href="#lannisters-panel" class="mdl-tabs__tab">Temperature</a>
         </div>
 
-        <div class="mdl-tabs__panel is-active " id="starks-panel">
+        <div class="mdl-tabs__panel is-active centerVChild" id="starks-panel">
             <main class="mdl-layout__content  ">
-                <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp center">
+                <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
                     <thead>
                     <tr>
-                        <th class="mdl-data-table__cell--non-numeric">Lampe</th>
+                        <th class="mdl-data-table__cell--non-numeric">Lamp</th>
                         <th class="mdl-data-table__cell--non-numeric">Status</th>
-                        <th class="mdl-data-table__cell--non-numeric">Schalter</th>
+                        <th class="mdl-data-table__cell--non-numeric">Switch</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -106,13 +106,13 @@ $lights = $light->getLightObjects();
                 </table>
             </main>
         </div>
-        <div class="mdl-tabs__panel center" id="lannisters-panel">
-            <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp ">
+        <div class="mdl-tabs__panel centerVChild" id="lannisters-panel">
+            <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp temperatureTable">
                 <thead>
                 <tr>
                     <th class="mdl-data-table__cell--non-numeric">
-                        Uhrzeit
-                        <button class="mdl-button mdl-js-button mdl-button--icon refreshTemp">
+                        Show Log / Date
+                        <button class="mdl-button mdl-js-button mdl-button--icon refreshTemp" >
                             <i class="material-icons">refresh</i>
                         </button>
                     </th>
@@ -122,17 +122,18 @@ $lights = $light->getLightObjects();
                 </thead>
                 <tbody class="roomTemp">
                 <tr class="">
-                    <td class="mdl-data-table__cell--non-numeric">Wohnzimmer</td>
+                    <td></td>
                     <td class="temp"></td>
                     <td class="humidity"></td>
                 </tr>
 
                 </tbody>
             </table>
+
+        </div>
+        <div>
             <div>
-                <div>
-                    <canvas id="canvas" height="600px" width="900px"></canvas>
-                </div>
+                <canvas id="canvas" style="width: 700%; min-height: 450px !important;"></canvas>
             </div>
         </div>
     </div>

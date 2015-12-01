@@ -41,6 +41,8 @@ JMC.Lights = {
 JMC.DHT = {
     room: function (selector) {
         $(selector).click(function () {
+            var cavas = $('#canvas');
+            cavas.empty();
             var input = $(this);
             var url = '/inc/request.php';
             $.ajax({
@@ -57,10 +59,10 @@ JMC.DHT = {
                         datasets: [
                             {
                                 label: "temperature",
-                                fillColor: "rgba(151,187,205,0.5)",
-                                strokeColor: "rgba(151,187,205,0.8)",
-                                highlightFill: "rgba(151,187,205,0.75)",
-                                highlightStroke: "rgba(151,187,205,1)",
+                                fillColor : "rgba(220,220,220,0.5)",
+                                strokeColor : "rgba(220,220,220,0.8)",
+                                highlightFill: "rgba(220,220,220,0.75)",
+                                highlightStroke: "rgba(220,220,220,1)",
                                 data: []
                             },
                             {
@@ -85,8 +87,9 @@ JMC.DHT = {
                             rs[i][2]
                         );
                     });  // close each()
-                    console.log(dataItems);
+
                     var ctx = document.getElementById("canvas").getContext("2d");
+
                     window.myLine = new Chart(ctx).Line(dataItems, {
                         responsive: true
                     });
@@ -112,8 +115,24 @@ JMC.DHT = {
 
             success: function (data) {
                 var rs = JSON.parse(data);
-                console.log(rs);
                 selector.append('Datum: '+rs[0]+' Temperature: '+rs[1]+'*C Humidity: '+rs[2]+'%');
+            },
+            error: function (error) { }
+        })
+    },
+    tempTable: function (selector) {
+
+        var url = '/inc/request.php';
+        $.ajax({
+            type: 'POST',
+            url: url,
+            data: {
+                tempNow: 'yes'
+            },
+
+            success: function (data) {
+                var rs = JSON.parse(data);
+                selector.append('<tr><td>Datum: '+rs[0]+'</td><td>'+rs[1]+'*C</td><td>'+rs[2]+'%</td></tr>');
             },
             error: function (error) { }
         })
@@ -126,6 +145,7 @@ $(function () {
     }
 
     JMC.DHT.room($('.refreshTemp'));
+    JMC.DHT.tempTable($('.temperatureTable'));
 
     JMC.DHT.tempNow($('.temperatureNow'));
 });
