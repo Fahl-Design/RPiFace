@@ -1,0 +1,15 @@
+{
+  "name": "fahl-design/piface-webinterface",
+  "description": "A lightweight 433Hz web remote control panel with temperature logger (using DHT11 Sensor)",
+  "minimum-stability": "alpha",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Benjamin Fahl",
+      "email": "git@fahl-design.de"
+    }
+  ],
+  "require": {
+    "twitter/bootstrap": "3.3.x-dev"
+  }
+}
