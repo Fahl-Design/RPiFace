@@ -67,3 +67,4 @@ $RECYCLE.BIN/
 *.lnk
 
 composer.lock
+inc/templog.csv
