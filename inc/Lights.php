@@ -1,7 +1,15 @@
 <?php
 
+/**
+ * Class lights
+ */
 class lights
 {
+    /**
+     * Database settings
+     *
+     * @var array
+     */
     private static $dbConfig = [
         'DB_HOST' => 'localhost',
         'DB_USER' => 'root',
@@ -10,22 +18,34 @@ class lights
         'DB_PREFIX' => 'pi_',
     ];
 
-    /**  Speicherplatz für überladene Daten.  */
+    /**
+     * Data attributes
+     *
+     * @var array
+     */
     private $data = [
         'pdo' => null,
         'lights' => [],
         'validCodes' => ['A', 'B', 'C']
     ];
 
-    /**  Überladung wird nicht bei deklarierten Eigenschaften benutzt.  */
-    public $declared = 1;
-
-
+    /**
+     * Magic __set
+     *
+     * @param $name
+     * @param $value
+     */
     public function __set($name, $value)
     {
         $this->data[$name] = $value;
     }
 
+    /**
+     * Magic __get
+     *
+     * @param $name
+     * @return null|mixed
+     */
     public function __get($name)
     {
         if (array_key_exists($name, $this->data)) {
@@ -50,7 +70,7 @@ class lights
     }
 
     /**
-     *
+     * getCutStrip
      *
      * @param $cs
      * @param $ml
@@ -85,7 +105,7 @@ class lights
     }
 
     /**
-     *
+     * getLightObjects
      *
      * @return array
      */
@@ -102,7 +122,7 @@ class lights
     }
 
     /**
-     *
+     * hydrateLight
      *
      * @param array $lights
      * @return array
@@ -127,6 +147,12 @@ class lights
         return $rs;
     }
 
+    /**
+     * getRoomById
+     *
+     * @param $id
+     * @return object
+     */
     public function getRoomById($id)
     {
         /** @var \PDO $pdo */
@@ -137,6 +163,12 @@ class lights
         return $room;
     }
 
+    /**
+     * getById
+     *
+     * @param $id
+     * @return object
+     */
     public function getById($id)
     {
         /** @var \PDO $pdo */
@@ -147,6 +179,12 @@ class lights
         return $light;
     }
 
+    /**
+     * switchState
+     *
+     * @param stdClass $light
+     * @return bool|string
+     */
     public function switchState(stdClass $light)
     {
         /** @var \PDO $pdo */
@@ -171,11 +209,22 @@ class lights
         }
     }
 
+    /**
+     * allOff
+     *
+     */
     public function allOff()
     {
         $lights = $this->lights;
     }
 
+    /**
+     * switchSh
+     *
+     * @param $letter
+     * @param $status
+     * @return bool|string
+     */
     private function switchSh($letter, $status)
     {
         settype($status, 'int');
