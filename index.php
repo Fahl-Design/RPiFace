@@ -66,14 +66,14 @@ $lights = $light->getLightObjects();
 <body>
 
 <!-- Simple header with scrollable tabs. -->
-<div class="mdl-layout mdl-js-layout mdl-layout--fixed-header centerVParent">
+<div class="mdl-layout mdl-js-layout mdl-layout--fixed-header ">
     <div class="mdl-tabs mdl-js-tabs mdl-js-ripple-effect ">
         <div class="mdl-tabs__tab-bar">
             <a href="#starks-panel" class="mdl-tabs__tab is-active">Light</a>
             <a href="#lannisters-panel" class="mdl-tabs__tab">Temperature</a>
         </div>
 
-        <div class="mdl-tabs__panel is-active centerVChild" id="starks-panel">
+        <div class="mdl-tabs__panel is-active " id="starks-panel">
             <main class="mdl-layout__content  ">
                 <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
                     <thead>
@@ -106,7 +106,7 @@ $lights = $light->getLightObjects();
                 </table>
             </main>
         </div>
-        <div class="mdl-tabs__panel centerVChild" id="lannisters-panel">
+        <div class="mdl-tabs__panel " id="lannisters-panel">
             <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp temperatureTable">
                 <thead>
                 <tr>
