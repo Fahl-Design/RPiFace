@@ -1,9 +1,9 @@
 var JMC = {};
 JMC.Lights = {
     switches: function (selector) {
-        $(selector).change(function () {
+        $(selector).on('click', function () {
             var input = $(this);
-            input.parents('tr').find('.status').html('<i class="material-icons">refresh</i>');
+            input.find('.status').html('<i class="material-icons">refresh</i>');
             var switchId = input.data('swtichid');
             var url = '/inc/request.php';
             $.ajax({
@@ -15,24 +15,26 @@ JMC.Lights = {
 
                 success: function (data) {
                     var rs = JSON.parse(data);
-                    input.parents('tr').find('.status').html('<i class="material-icons">done</i>');
+                    input.find('.status').html('<i class="material-icons">done</i>');
 
                     if (rs.state == "ON") {
                         setTimeout(
                             function () {
-                                input.parents('tr').find('.status').html('<i class="material-icons">wb_incandescent</i>')
-                            }, 750
+                                input.find('.status').html('<i class="material-icons">wb_incandescent</i>');
+                                input.addClass('alert-warning');
+                            }, 500
                         );
                     } else {
                         setTimeout(
                             function () {
-                                input.parents('tr').find('.status').html('<i class="material-icons">brightness_3</i>')
-                            }, 750
+                                input.find('.status').html('<i class="material-icons">brightness_3</i>');
+                                input.removeClass('alert-warning');
+                            }, 500
                         );
                     }
                 },
                 error: function (error) {
-                    input.parents('tr').find('.status').html('<i class="material-icons">error_outline</i>')
+                    input.find('.status').html('<i class="material-icons">error_outline</i>')
                 }
             });
         });
@@ -59,8 +61,8 @@ JMC.DHT = {
                         datasets: [
                             {
                                 label: "temperature",
-                                fillColor : "rgba(220,220,220,0.5)",
-                                strokeColor : "rgba(220,220,220,0.8)",
+                                fillColor: "rgba(220,220,220,0.5)",
+                                strokeColor: "rgba(220,220,220,0.8)",
                                 highlightFill: "rgba(220,220,220,0.75)",
                                 highlightStroke: "rgba(220,220,220,1)",
                                 data: []
@@ -76,12 +78,12 @@ JMC.DHT = {
                         ]
                     };
                     $('.roomTemp').empty();
-                    $.each(rs, function(i, row) {
+                    $.each(rs, function (i, row) {
 
                         dataItems.labels.push(rs[i][0]);
 
                         dataItems.datasets[0]['data'].push(
-                           rs[i][1]
+                            rs[i][1]
                         );
                         dataItems.datasets[1]['data'].push(
                             rs[i][2]
@@ -90,7 +92,7 @@ JMC.DHT = {
 
                     var ctx = document.getElementById("canvas").getContext("2d");
 
-                    window.myLine = new Chart(ctx).Line(dataItems, {
+                    window.myLine = new Chart(ctx).Bar(dataItems, {
                         responsive: true
                     });
 
@@ -115,9 +117,10 @@ JMC.DHT = {
 
             success: function (data) {
                 var rs = JSON.parse(data);
-                selector.append('Datum: '+rs[0]+' Temperature: '+rs[1]+'*C Humidity: '+rs[2]+'%');
+                selector.append('Current Temperatures <br><small>Datum: ' + rs[0] + ' <br>Temperature: ' + rs[1] + '*C <br>Humidity: ' + rs[2] + '%</small>');
             },
-            error: function (error) { }
+            error: function (error) {
+            }
         })
     },
     tempTable: function (selector) {
@@ -132,17 +135,16 @@ JMC.DHT = {
 
             success: function (data) {
                 var rs = JSON.parse(data);
-                selector.append('<tr><td>Datum: '+rs[0]+'</td><td>'+rs[1]+'*C</td><td>'+rs[2]+'%</td></tr>');
+                selector.append('<tr><td>Datum: ' + rs[0] + '</td><td>' + rs[1] + '*C</td><td>' + rs[2] + '%</td></tr>');
             },
-            error: function (error) { }
+            error: function (error) {
+            }
         })
     }
 };
 
 $(function () {
-    if ($('.mdl-switch__input').length > 0) {
-        JMC.Lights.switches('.mdl-switch__input');
-    }
+    JMC.Lights.switches('.panel-body .statusPanel');
 
     JMC.DHT.room($('.refreshTemp'));
     JMC.DHT.tempTable($('.temperatureTable'));

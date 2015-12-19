@@ -215,7 +215,10 @@ class lights
      */
     public function allOff()
     {
-        $lights = $this->lights;
+        foreach ($this->getLightObjects() as $light) {
+            /** @var lights $light*/
+            $light->switchSh($light->code, $light->status);
+        }
     }
 
     /**

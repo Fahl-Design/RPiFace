@@ -1,5 +1,6 @@
 <?php
 include('inc/Lights.php');
+include('./vendor/autoload.php');
 ?>
 <!doctype html>
 
@@ -41,111 +42,77 @@ $lights = $light->getLightObjects();
     <link href='//fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&amp;lang=en' rel='stylesheet'
           type='text/css'>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
     <link rel="stylesheet" href="css/material.min.css">
+    <link rel="stylesheet" href="./vendor/twitter/bootstrap/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="css/styles.css">
-    <style>
-
-        .centerVParent {
-            position: relative;
-        }
-
-        .centerVChild {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-        }
-
-        .center {
-            position: absolute;
-            margin: 0 auto;
-            min-width: 275px;
-        }
-    </style>
-
 </head>
 <body>
-
-<!-- Simple header with scrollable tabs. -->
-<div class="mdl-layout mdl-js-layout mdl-layout--fixed-header ">
-    <div class="mdl-tabs mdl-js-tabs mdl-js-ripple-effect ">
-        <div class="mdl-tabs__tab-bar">
-            <a href="#starks-panel" class="mdl-tabs__tab is-active">Light</a>
-            <a href="#lannisters-panel" class="mdl-tabs__tab">Temperature</a>
-        </div>
-
-        <div class="mdl-tabs__panel is-active " id="starks-panel">
-            <main class="mdl-layout__content  ">
-                <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
-                    <thead>
-                    <tr>
-                        <th class="mdl-data-table__cell--non-numeric">Lamp</th>
-                        <th class="mdl-data-table__cell--non-numeric">Status</th>
-                        <th class="mdl-data-table__cell--non-numeric">Switch</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <?php foreach ($lights as $lightBall) : ?>
-                        <tr>
-                            <td class="mdl-data-table__cell--non-numeric">
-                                <?php echo htmlentities($lightBall->name); ?>
-                            </td>
-                            <td class="mdl-data-table__cell--non-numeric status">
-                                <?php echo ((bool)$lightBall->status) ? '<i class="material-icons">wb_incandescent</i>' : '<i class="material-icons">brightness_3</i>' ?>
-                            </td>
-                            <td class="mdl-data-table__cell--non-numeric">
-                                <label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="switch-<?php echo $lightBall->id ?>">
-                                    <input type="checkbox" id="switch-<?php echo $lightBall->id ?>" data-swtichid="<?php echo $lightBall->id ?>"
-                                           class="mdl-switch__input" <?php echo ((bool)$lightBall->status) ? 'checked' : '' ?>>
-                                    <span class="mdl-switch__label"></span>
-                                </label>
-                            </td>
-                        </tr>
-                    <?php endforeach ?>
-
-                    </tbody>
-                </table>
-            </main>
-        </div>
-        <div class="mdl-tabs__panel " id="lannisters-panel">
-            <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp temperatureTable">
-                <thead>
-                <tr>
-                    <th class="mdl-data-table__cell--non-numeric">
-                        Show Log / Date
-                        <button class="mdl-button mdl-js-button mdl-button--icon refreshTemp" >
-                            <i class="material-icons">refresh</i>
-                        </button>
-                    </th>
-                    <th>Temperatur</th>
-                    <th>Luftfeuchtigkeit</th>
-                </tr>
-                </thead>
-                <tbody class="roomTemp">
-                <tr class="">
-                    <td></td>
-                    <td class="temp"></td>
-                    <td class="humidity"></td>
-                </tr>
-
-                </tbody>
-            </table>
-
-        </div>
-        <div>
-            <div>
-                <canvas id="canvas" style="width: 700%; min-height: 450px !important;"></canvas>
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <div class="page-header ">
+                <h1>RPiFace
+                    <small class="visible-lg-block visible-md-block visible-sm-block ">Mumbi 433Hz Lamp Control with Temperature History</small>
+                </h1>
+                <div class="alert alert-warning alert-dismissible">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Schließen"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="temperatureNow"></h4>
+                </div>
             </div>
         </div>
     </div>
-
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <div class="row">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Lamps</h3>
+                        </div>
+                        <div class="panel-body">
+                            <?php foreach ($lights as $lightBall) : ?>
+                                <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading">
+                                            <h3 class="panel-title"><?php echo htmlentities($lightBall->name); ?></h3>
+                                        </div>
+                                        <div class="panel-body statusPanel <?php echo ((bool)$lightBall->status) ? 'alert-warning' : '' ?>"
+                                             data-swtichid="<?php echo $lightBall->id ?>"
+                                             id="switch-<?php echo $lightBall->id ?>">
+                                            <p class="status alert text-center">
+                                                <?php echo ((bool)$lightBall->status) ? '<i class="material-icons">wb_incandescent</i>' : '<i class="material-icons">brightness_3</i>' ?>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            <?php endforeach ?>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default visible-md visible-sm visible-lg">
+                <div class="panel-heading">
+                    <h3 class="panel-title ">
+                        Temperatures
+                        <button class="mdl-button mdl-js-button mdl-button--icon refreshTemp">
+                            <i class="material-icons">refresh</i>
+                        </button>
+                    </h3>
+                </div>
+                <div class="panel-body">
+                    <canvas id="canvas" class="img-responsive"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
-<script src="js/material.min.js"></script>
 <script src="js/jquery.js"></script>
+<script src="./vendor/twitter/bootstrap/dist/js/bootstrap.js"></script>
+<script src="js/material.min.js"></script>
+
 <script src="js/request.js"></script>
 <script src="js/chart.js"></script>
-<script>
-
-</script>
 </body>
 </html>
