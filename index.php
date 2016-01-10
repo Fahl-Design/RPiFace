@@ -1,12 +1,12 @@
 <?php
-include('inc/Lights.php');
+include('inc/Light.php');
 include('./vendor/autoload.php');
 ?>
 <!doctype html>
 
 <?php
-/** @var lights $light */
-$light = new lights();
+/** @var light $light */
+$light = new light();
 
 $lights = $light->getLightObjects();
 ?>
@@ -70,7 +70,7 @@ $lights = $light->getLightObjects();
                         <div class="panel-heading">
                             <h3 class="panel-title">Lamps</h3>
                         </div>
-                        <div class="panel-body">
+                        <div class="panel-body lamps">
                             <?php foreach ($lights as $lightBall) : ?>
                                 <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
                                     <div class="panel panel-default">
@@ -87,6 +87,22 @@ $lights = $light->getLightObjects();
                                     </div>
                                 </div>
                             <?php endforeach ?>
+                            <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <h3 class="panel-title">Alle Lammpen</h3>
+                                    </div>
+
+                                    <div class="panel-body statusPanel <?php echo ((bool)$light->statusAll) ? 'alert-warning' : '' ?>"
+                                         data-swtichid="all"
+                                         data-force="<?php echo ((bool)$light->statusAll) ? 'OFF' : 'ON' ?>"
+                                         id="switch-all">
+                                        <p class="status alert text-center">
+                                            <?php echo ((bool)$light->statusAll) ? '<i class="material-icons">wb_incandescent</i>' : '<i class="material-icons">brightness_3</i>' ?>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
