@@ -1,0 +1,15 @@
+.centerVParent {
+    position: relative;
+}
+
+.centerVChild {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.center {
+    position: absolute;
+    margin: 0 auto;
+    min-width: 275px;
+}
