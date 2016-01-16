@@ -8,7 +8,6 @@ Raspberry Pi or something like that
 + Cable
 + ...
 
-#
 ## Softare:
 + LAMP Stack
 + Python 2.7.3
